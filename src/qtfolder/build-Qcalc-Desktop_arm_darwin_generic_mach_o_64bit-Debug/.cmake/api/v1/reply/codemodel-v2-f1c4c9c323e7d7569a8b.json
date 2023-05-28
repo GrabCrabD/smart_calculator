@@ -1,0 +1,70 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-7376715a8b0c6d668e49.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Qcalc",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Qcalc::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Qcalc-Debug-4e5c6d8e61eda6f3d426.json",
+					"name" : "Qcalc",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Qcalc_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Qcalc_autogen-Debug-9d6d636431260a5b999b.json",
+					"name" : "Qcalc_autogen",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/dmitriy/repository/school projects/C7_SmartCalc_v1.0-1/src/qtfolder/build-Qcalc-Desktop_arm_darwin_generic_mach_o_64bit-Debug",
+		"source" : "/Users/dmitriy/repository/school projects/C7_SmartCalc_v1.0-1/src/qtfolder/Qcalc"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 5
+	}
+}
