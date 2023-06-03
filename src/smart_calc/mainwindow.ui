@@ -495,7 +495,7 @@ QPushButton:pressed {
 }</string>
        </property>
        <property name="text">
-        <string>pow</string>
+        <string>^</string>
        </property>
       </widget>
      </item>

@@ -1,36 +1,25 @@
 #include "s21_smart_calc.h"
 
-// int main(char *argc, int *argv) {
-//   char strin[BUF_SIZE] = "-8 + (-s(7)) * (-(78 / (1.5 * 2 - 3) + (3 - 8)))";
-//   if (!check_unary_operators(strin)) {
-//     printf("incorret input\n");
-//   } else {
-//     char strout[BUF_SIZE];
-//     to_polish_not(strin, strout);
-//     printf("strout = %s\n", strout);
-//     long double result = get_result(strout);
-//     printf("%.8Lf", result);
-//   }
-//   return 0;
-// }
-
-long double calculating(const char* strin) {
+double calculating(const char* strin) {
   char strout[BUF_SIZE];
   char copy_strin[BUF_SIZE + 1];
+  if (!check_func_arguments(strin)) {
+    return NAN;
+  }
   strcpy(copy_strin, strin);
-  funcs_parsing(copy_strin);
+  replaceModWithPercent(copy_strin);
   check_unary_operators(copy_strin);
+  funcs_parsing(copy_strin);
   to_polish_not(copy_strin, strout);
-  long double result = get_result(strout);
+  double result = get_result(strout);
 
   return result;
 }
 
-long double get_result(char* strout) {
-  long double values[BUF_SIZE];
-  int top = -1;  // top of value's massive
-  int i = 0;
-  long double res = 0.;
+double get_result(char* strout) {
+  double values[BUF_SIZE];
+  int top = -1;  // индекс верхушки массива
+  double res = 0.;
   char* str = strtok(strout, " ");
   while (str != NULL) {
     if (isdigit(str[0])) {
@@ -40,8 +29,8 @@ long double get_result(char* strout) {
         printf("Insufficient operands\n");
         return NAN;
       }
-      long double arg2 = values[top--];
-      long double arg1 = values[top--];
+      double arg2 = values[top--];
+      double arg1 = values[top--];
       switch (str[0]) {
         case '+':
           values[++top] = arg1 + arg2;

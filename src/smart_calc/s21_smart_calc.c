@@ -6,13 +6,14 @@ void to_polish_not(const char *strin, char *strout) {
 
   int i, j = 0;
   for (i = 0; strin[i] != '\0'; i++) {
-    if (isdigit(strin[i])) {
+    if (isdigit(strin[i])) {  // входной символ относится к цифрам
       while (isdigit(strin[i]) || strin[i] == '.') {
         strout[j++] = strin[i++];
       }
       strout[j++] = ' ';
       --i;
-    } else if (strin[i] == '(' || is_func(strin[i])) {
+    } else if (strin[i] == '(' ||
+               is_func(strin[i])) {  // входной символ относится к функциям
       push(&stack, strin[i]);
     } else if (strin[i] == ')' || strin[i] == ',') {
       while (!is_empty(&stack) && peek_operator(&stack) != '(') {
@@ -26,7 +27,7 @@ void to_polish_not(const char *strin, char *strout) {
         strout[j++] = pop_operator(&stack);
         strout[j++] = ' ';
       }
-    } else if (is_operator(strin[i])) {
+    } else if (is_operator(strin[i])) {  // входной символ оператор
       while (!is_empty(&stack) && peek_operator(&stack) != '(' &&
              (priority(strin[i]) <= priority(peek_operator(&stack)))) {
         strout[j++] = pop_operator(&stack);
@@ -70,10 +71,19 @@ int is_operator(char op) {
   return strchr(opers, op) ? SUCCESS : FAILURE;
 }
 
+void replaceModWithPercent(char *str) {
+  char *ptr = strstr(str, "mod");  // Находим первое вхождение подстроки "mod"
+  if (ptr != NULL) {
+    memmove(ptr + 1, ptr + 3, strlen(ptr + 3) + 1);
+    *ptr = '%';
+  }
+}
+
 void check_unary_operators(char *strin) {
-  for (int i = 0; i < strlen(strin); i++) {
+  for (size_t i = 0; i < strlen(strin); i++) {
     if ((strin[i] == '-' || strin[i] == '+') &&
-        (i == 0 || strin[i - 1] == '(' || is_operator(strin[i - 1]))) {
+        (i == 0 || strin[i - 1] == '(' || is_operator(strin[i - 1]) ||
+         strin[i - 1] == ' ')) {
       if (strin[i] == '-') {
         strin[i] = '~';
       } else {
@@ -83,8 +93,15 @@ void check_unary_operators(char *strin) {
   }
 }
 
+int check_func_arguments(const char *strin) {
+  const char *empty_brackets = "()";
+  if (strstr(strin, empty_brackets) != NULL) {  // в функции нет аргумента
+    return FAILURE;
+  }
+  return SUCCESS;
+}
+
 void funcs_parsing(char *strin) {
-  char output[BUF_SIZE];
   char *functions[] = {"sin",  "cos", "tan", "acos", "asin",
                        "atan", "log", "ln",  "sqrt"};
   char replacements[] = {SIN, COS, TAN, ACOS, ASIN, ATAN, LOG, LN, SQRT};
@@ -99,7 +116,7 @@ void funcs_parsing(char *strin) {
 
       // Проверка окружающих символов
       if ((start == 0 || !isalpha(strin[start - 1])) &&
-          (end == strlen(strin) || !isalpha(strin[end]))) {
+          ((size_t)end == strlen(strin) || !isalpha(strin[end]))) {
         // Окружающие символы не являются буквами, производим замену
         strin[start] = replacements[i];
         memmove(strin + start + 1, strin + end, strlen(strin + end) + 1);

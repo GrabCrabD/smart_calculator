@@ -52,9 +52,9 @@ typedef struct {
   Node *top;
 } Stack;
 
-long double calculating(const char *strin);
+double calculating(const char *strin);
 void to_polish_not(const char *strin, char *strout);
-long double get_result(char *strout);
+double get_result(char *strout);
 
 void push(Stack *s, char operation);
 char pop_operator(Stack *s);
@@ -64,8 +64,10 @@ int is_empty(Stack *s);
 int is_operator(char op);
 int is_func(char func);
 int priority(char op);
+void replaceModWithPercent(char *str);
 void check_unary_operators(char *strin);
 void funcs_parsing(char *strin);
+int check_func_arguments(const char *strin);
 
 #ifdef __cplusplus
 }
